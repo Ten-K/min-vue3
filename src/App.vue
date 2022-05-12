@@ -1,5 +1,12 @@
 <script setup>
-import { reactive, effect, ref, computed } from '../lib/reactive/index'
+import {
+	reactive,
+	effect,
+	ref,
+	computed,
+	toRef,
+	toRefs
+} from '../lib/reactive/index'
 
 // const ob = (window.ob = reactive({
 //   count1: 0,
@@ -30,6 +37,19 @@ const d = (window.d = computed({
 		foo.value = val
 	}
 }))
+
+const proxy = (window.proxy = reactive({
+	name: 'test'
+}))
+
+let { name } = toRefs(proxy)
+
+effect(() => {
+	console.log(name.value)
+})
+setTimeout(() => {
+	name.value = 'www'
+}, 1000)
 </script>
 
 <template>
