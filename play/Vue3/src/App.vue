@@ -1,55 +1,60 @@
 <script setup>
-import {
-	reactive,
-	effect,
-	ref,
-	computed,
-	toRef,
-	toRefs
-} from '../lib/reactive/index'
+import { reactive, effect, ref, computed, toRef, toRefs } from '@lrl/reactive'
 
+/** reactive验证 */
 // const ob = (window.ob = reactive({
-//   count1: 0,
-//   count2: 10
+// 	count1: 0,
+// 	count2: 10
 // }))
+
+/** 嵌套effect验证 */
 // effect(() => {
+// 	console.log('count1 is:', ob.count1)
 // 	effect(() => {
 // 		console.log('count2 is:', ob.count2)
 // 	})
-// 	console.log('count1 is:', ob.count1)
 // })
-const foo = (window.foo = ref(1))
+
+/** ref验证 */
+// const foo = (window.foo = ref(1))
 
 // effect(() => {
 // 	console.log('foo', foo.value)
 // })
 
+/** computed验证 */
 // const c = (window.c = computed(() => {
 // 	console.log('computed:', foo.value * 2)
 // 	return foo.value * 2
 // }))
 
-const d = (window.d = computed({
-	get() {
-		return foo.value * 2
-	},
-	set(val) {
-		foo.value = val
-	}
-}))
+// const d = (window.d = computed({
+// 	get() {
+// 		return foo.value * 2
+// 	},
+// 	set(val) {
+// 		foo.value = val
+// 	}
+// }))
 
+/** toRef, toRefs验证 */
 const proxy = (window.proxy = reactive({
-	name: 'test'
+	num: 1,
+	num2: 2
 }))
 
-let { name } = toRefs(proxy)
+let num2 = toRef(proxy, 'num2')
+let { num } = toRefs(proxy)
+
+setTimeout(() => {
+	num.value = 2
+  num2.value = 3
+}, 1000)
 
 effect(() => {
-	console.log(name.value)
+	console.log(num.value)
+	console.log(num2.value)
 })
-setTimeout(() => {
-	name.value = 'www'
-}, 1000)
 </script>
 
 <template>
